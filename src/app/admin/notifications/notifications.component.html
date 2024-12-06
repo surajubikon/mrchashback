@@ -1,0 +1,213 @@
+<nz-layout>
+  <app-dashboard-header></app-dashboard-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <app-sidebar [activeMenu]="'NOTIFICATIONS'"></app-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-page-header [nzGhost]="false">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+          <nz-breadcrumb-item>
+            <a href="/dashboard/home">Home</a>
+          </nz-breadcrumb-item>
+          <nz-breadcrumb-item>Notifications</nz-breadcrumb-item>
+          <!-- <nz-breadcrumb-item>Overview</nz-breadcrumb-item> -->
+        </nz-breadcrumb>
+        <nz-page-header-title>Notifications</nz-page-header-title>
+        <!-- <nz-page-header-subtitle>This is a subtitle</nz-page-header-subtitle> -->
+        <nz-page-header-extra>
+          <nz-space>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              (click)="openCreateDrawer()"
+            >
+              Add New
+            </button>
+          </nz-space>
+        </nz-page-header-extra>
+        <!-- <nz-page-header-content>
+          <div nz-flex nzGap="middle" nzAlign="center">
+            <div class="flex-item">
+              <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input
+                  type="text"
+                  [formControl]="searchFormControl"
+                  nz-input
+                  placeholder="Search..."
+                />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+              </ng-template>
+            </div>
+            <div class="flex-item">
+              <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                {{ status ? status : "Filter by Status" }}
+                <span nz-icon nzType="down"></span>
+              </button>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li
+                    nz-menu-item
+                    (click)="applyStatusFilter(status.value)"
+                    *ngFor="let status of userStatus"
+                  >
+                    {{ status.label }}
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </div>
+            <div class="flex-item" *ngIf="searchFormControl.value || status">
+              <button
+                nz-button
+                nzType="text"
+                (click)="onResetFilter()"
+                nzDanger
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </nz-page-header-content> -->
+      </nz-page-header>
+      <nz-content>
+        <ng-container *ngIf="isDataLoad">
+          <nz-spin colspan="7" style="text-align: center" nzTip="Loading...">
+          </nz-spin>
+        </ng-container>
+        <nz-table #basicTable [nzData]="allNotifications">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Message</th>
+              <th>Sent At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="!isDataLoad">
+              <tr *ngFor="let data of basicTable.data">
+                <td>
+                  <nz-avatar
+                    [nzShape]="'square'"
+                    [nzSize]="128"
+                    [nzSrc]="imageBaseUrl + data.imagePath"
+                    class="avatar--contain"
+                  ></nz-avatar>
+                </td>
+                <td>{{ data.title | titlecase }}</td>
+                <td>{{ data.body | titlecase }}</td>
+                <td>{{ data.createdAt | date : "mediumDate" }}</td>
+                <td>
+                  <nz-space>
+                    <button
+                      *nzSpaceItem
+                      nz-button
+                      nzSize="default"
+                      nzType="default"
+                      (click)="onDelete(data._id)"
+                    >
+                      Delete
+                    </button>
+                  </nz-space>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
+<nz-drawer
+  nzSize="large"
+  [nzVisible]="visible"
+  nzPlacement="right"
+  [nzTitle]="isEditMode ? 'Update ' : 'Add New '"
+  [nzExtra]="extra"
+  (nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <form nz-form [formGroup]="notificationFG">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">
+          Title</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid title!"
+        >
+          <input nz-input formControlName="title" id="title" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="body"
+          >Body</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid body!"
+        >
+          <textarea
+            nz-input
+            formControlName="body"
+            id="body"
+            placeholder="Enter Body "
+            [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <div class="col-lg-6 fv-row">
+        <label class="col-lg-4 col-form-label fw-semibold fs-6"
+          >Media Image</label
+        >
+
+        <nz-upload
+          *ngIf="!mediaImagePreview"
+          (nzChange)="getFileDetail($event, 'Media')"
+          nzName="mediaAvatar"
+          nzAccept=".png,.jpg,.jpeg"
+          nzListType="picture-card"
+        >
+          <ng-container *ngIf="!mediaImagePreview">
+            <i nz-icon nzType="plus"></i>
+            <div class="ant-upload-text">Upload</div>
+          </ng-container>
+        </nz-upload>
+        <nz-avatar
+          [nzShape]="'square'"
+          [nzSize]="64"
+          *ngIf="mediaImagePreview || isMediaImagePreview"
+          [nzSrc]="
+            mediaImagePreview
+              ? mediaImagePreview
+              : imageBaseUrl + isMediaImagePreview
+          "
+        ></nz-avatar>
+
+        <div style="text-align: right; padding-top: 5px">
+          <button
+            *ngIf="mediaImagePreview || isMediaImagePreview"
+            nz-button
+            nzType="primary"
+            id="kt_account_profile_details_submit"
+            (click)="onClearMedia()"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</nz-drawer>
+<ng-template #extra>
+  <button nz-button nzType="default" (click)="close()">Cancel</button>
+  &nbsp;
+  <button nz-button nzType="primary" (click)="submitCreateForm()">Save</button>
+</ng-template>

@@ -1,0 +1,76 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <nz-sider nzWidth="200px" nzTheme="light" class="isDesktop">
+          <app-profile-sidebar
+            [active]="'REFER'"
+            class="isDesktop"
+          ></app-profile-sidebar>
+        </nz-sider>
+        <app-profile-sidebar
+          [active]="'REFER'"
+          class="isMobile"
+        ></app-profile-sidebar>
+        <nz-content class="inner-content">
+          <h4>
+            Invite your friends and earn cashback whenever they shop with
+            Mr.Cashback
+          </h4>
+          <p><strong>Your referral link:</strong></p>
+          <p>https://mrcashback.in/invite/{{ userData?.referralCode }}</p>
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="false"
+            (click)="copyToClipboard()"
+          >
+            Copy Link
+          </button>
+          <div class="text" *ngIf="copySuccess">Link copied to clipboard!</div>
+          <br />
+          <br />
+          <p><strong>My referral network:</strong></p>
+          <!-- <nz-card *ngFor="let refItem of list">
+            <div>Referral Amount Earned: ₹ {{ refItem.amount || 0 }}</div>
+            <div>
+              <small
+                >Earned for ordered placed by
+                {{ refItem.userData.name | titlecase }} at
+                {{ refItem.updatedAt | date : "medium" }}
+                PM
+              </small>
+            </div>
+            <div>
+              <small>Earning Status: {{ refItem.status | titlecase }}</small>
+            </div>
+          </nz-card> -->
+          <nz-card *ngFor="let refItem of list">
+            <div>
+              Referral Total Amount Earned: ₹
+              {{ refItem.totalAmountEarned || 0 }}
+            </div>
+            <div>
+              <small
+                >Earned for orderes placed by
+                {{ refItem.customerDetails.name | titlecase }}
+              </small>
+            </div>
+            <div>
+              <small
+                >Total Referral Orders:
+                {{ refItem.totalReferralOrders || 0 }}</small
+              >
+            </div>
+          </nz-card>
+
+          <nz-empty *ngIf="list.length < 1"></nz-empty>
+        </nz-content>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

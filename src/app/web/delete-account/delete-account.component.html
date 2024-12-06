@@ -1,0 +1,86 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="hero__container">
+          <h1>Delete Account</h1>
+          <p>We're sorry to see you go</p>
+        </div>
+        <nz-layout class="section">
+          <div class="section__title">
+            Please fill the details below to delete your account
+          </div>
+          <div class="section__form">
+            <form nz-form nzLayout="vertical" [formGroup]="deleteAccountFG">
+              <nz-form-item>
+                <nz-form-label nzFor="Mobile">Registered Mobile</nz-form-label>
+                <nz-form-control
+                  nzErrorTip="Please input your registered mobile number!"
+                >
+                  <nz-input-group>
+                    <input formControlName="Mobile" type="text" nz-input />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label nzFor="Name">Full Name</nz-form-label>
+                <nz-form-control nzErrorTip="Please input your full name!">
+                  <nz-input-group>
+                    <input type="text" formControlName="Name" nz-input />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label nzFor="Email">Email</nz-form-label>
+                <nz-form-control nzErrorTip="Please input your email id!">
+                  <nz-input-group>
+                    <input type="email" formControlName="Email" nz-input />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzFor="Message"
+                  >Reason for deleting account</nz-form-label
+                >
+                <nz-form-control
+                  nzErrorTip="Please input your Reason for deleting account!"
+                >
+                  <nz-input-group>
+                    <textarea
+                      type="text"
+                      formControlName="Message"
+                      nz-input
+                      rows="5"
+                    ></textarea>
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+
+              <button
+                nz-button
+                nzDanger
+                nzType="primary"
+                class="w-100 login-form-margin"
+                [nzLoading]="false"
+                (click)="sendEmail()"
+              >
+                SUBMIT REQUEST
+              </button>
+            </form>
+          </div>
+          <div class="section__subtitle">
+            <br />
+            <br />
+            Or mail us email at:
+            <br />
+            <strong>info@mrcashback.in</strong>
+            <br />
+          </div>
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+  <app-web-footer></app-web-footer>
+</nz-layout>

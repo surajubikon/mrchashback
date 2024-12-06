@@ -1,0 +1,161 @@
+<app-redirection-loading *ngIf="false"></app-redirection-loading>
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light" *ngIf="false">
+      <app-web-sidebar [activeMenu]="'HOME'"></app-web-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="hero__container">
+          <div class="hero__product">
+            <img [src]="offer.icon" alt="" />
+          </div>
+          <p>Available On</p>
+          <div class="hero__brand">
+            <img [src]="imgBaseUrl + offer.websiteId.icon" alt="" />
+          </div>
+          <h1>{{ offer.name | titlecase }}</h1>
+          <!-- <p>Explore offers on [Website] and Win exciting cashbacks</p> -->
+        </div>
+        <nz-layout class="section">
+          <div class="section__title">You have got a deal</div>
+          <div class="section__subtitle">
+            Click on the Activate Offer button below to grab the deal or share
+            with your friends and family to enjoy referral cashbacks while they
+            shop.
+          </div>
+          <div class="section__cashback">Earn Upto 10% Cashback</div>
+          <div class="section__timeline">
+            <nz-steps
+              class="isDesktop"
+              [nzCurrent]="2"
+              [nzProgressDot]="progressTemplate"
+            >
+              <nz-step nzTitle="Order" nzDescription="Today"></nz-step>
+              <nz-step
+                nzTitle="Cashback Tracking"
+                nzDescription="12 Hours"
+              ></nz-step>
+              <nz-step
+                nzTitle="Cashback Allotment"
+                nzDescription="45 Days"
+              ></nz-step>
+            </nz-steps>
+            <nz-steps
+              class="isMobile"
+              nzDirection="vertical"
+              [nzCurrent]="2"
+              [nzProgressDot]="progressTemplate"
+            >
+              <nz-step nzTitle="Order" nzDescription="Today"></nz-step>
+              <nz-step
+                nzTitle="Cashback Tracking"
+                nzDescription="12 Hours"
+              ></nz-step>
+              <nz-step
+                nzTitle="Cashback Allotment"
+                nzDescription="45 Days"
+              ></nz-step>
+            </nz-steps>
+            <ng-template
+              #progressTemplate
+              let-dot
+              let-status="status"
+              let-index="index"
+            >
+              <span
+                nz-popover
+                nzPopoverContent="steps {{ index }} status: {{ status }}"
+                style="margin-left: -100%"
+              >
+                <ng-template [ngTemplateOutlet]="dot"></ng-template>
+              </span>
+            </ng-template>
+          </div>
+
+          <div class="link__wrapper">
+            <div class="link__title">Make your own earning link</div>
+            <div class="link__subtitle">
+              Paste a product link from the above store and convert them into
+              ready to use link
+            </div>
+            <div class="link__input">
+              <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24">Link</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                  <input
+                    nz-input
+                    [formControl]="linkFormControl"
+                    nzId="linkFormControl"
+                    placeholder="Paste link here"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+              <div class="link__action">
+                <button
+                  [nzLoading]="isLoading"
+                  nz-button
+                  [nzType]="linkFormControl.value ? 'primary' : 'default'"
+                  (click)="onClickMakeLink(offer)"
+                  [disabled]="!linkFormControl.value"
+                >
+                  Make Link
+                </button>
+              </div>
+            </div>
+            <div *ngIf="genratedLink" class="link__generated">
+              <div class="link__subtitle" (click)="onNavigate(genratedLink)">
+                {{ genratedLink }}
+              </div>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="copyToClipboard(genratedLink)"
+              >
+                Copy Link
+              </button>
+              <div class="link__copy-success" *ngIf="copySuccess">
+                Link copied to clipboard!
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="section__action"
+            (click)="openStoreUsingActiveOffer(offer)"
+          >
+            Grab Deal
+          </div>
+          <div class="section__action" (click)="openShare(offer)">Share</div>
+          <nz-alert
+            nzType="success"
+            *ngIf="isReadyToShare"
+            nzMessage="Copy To Clipboard"
+            nzShowIcon
+          ></nz-alert>
+          <!-- <div class="section__terms">
+            <div class="section__terms--title">Offer Terms</div>
+            <ng-container *ngFor="let sections of [].constructor(3)">
+              <div class="section__terms--subtitle">Reward Related</div>
+              <div class="section__terms--details">
+                <ul>
+                  <li *ngFor="let terms of [].constructor(3)">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Qui repudiandae vel quaerat fuga.
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+          </div> -->
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+    <app-redirection-loading
+    *ngIf="showLoading"
+    [redirectData]="offer.websiteId.icon"
+  ></app-redirection-loading>
+  </nz-layout>
+  <app-web-footer></app-web-footer>
+</nz-layout>

@@ -1,0 +1,40 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <!-- <nz-sider nzWidth="200px" nzTheme="light" *ngIf="isSidebarVisible">
+          <app-web-sidebar [activeMenu]="'HOME'"></app-web-sidebar>
+        </nz-sider> -->
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="hero__container">
+          <h1>Contact Us</h1>
+          <p>Feel free to reach out to us</p>
+        </div>
+        <nz-layout class="section">
+          <div class="section__title">Got any questions or suggestions?</div>
+          <div class="section__subtitle">
+            Call Us At: <strong (click)="onCall()">+91-9826566660</strong>
+            <br />
+            <br />
+            Drop your email at: <strong>info@mrcashback.in</strong>
+            <br />
+            <br />
+            Find us at: 225, Benchmark Business Park, Opposite Gujrati School,
+            Satya Sai Square
+            <br />
+            Indore, 452001
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </div>
+          <!-- <div class="section__action">Activate Offer</div> -->
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+  <app-web-footer></app-web-footer>
+</nz-layout>

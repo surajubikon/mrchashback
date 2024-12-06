@@ -1,0 +1,142 @@
+<!-- <nz-layout class="layout"> -->
+<nz-header>
+  <div class="header__wrapper">
+    <div class="logo" [routerLink]="'/'">
+      <img
+        src="../../../../assets/images/mr-removebg.png"
+        alt="Mr.Cashback"
+      />
+      <!-- <span> Mr.Cashback </span> -->
+    </div>
+    <nz-select
+      *ngIf="showSearch"
+      class="showSearch"
+      nzShowSearch
+      nzServerSearch
+      nzPlaceHolder="Search your required product or website"
+      [(ngModel)]="selectedValue"
+      [nzShowArrow]="false"
+      nzAllowClear
+      [nzFilterOption]="nzFilterOption"
+      (nzOnSearch)="onSearchInputChange($event)"
+      (ngModelChange)="onSelect($event)"
+    >
+      <ng-container
+        *ngFor="let type of ['affiliateItems', 'websites', 'categories']"
+      >
+        <ng-container
+          *ngIf="listOfResults[type] && listOfResults[type].length > 0"
+        >
+          <nz-option-group [nzLabel]="getLabel(type)">
+            <nz-option
+              *ngFor="let o of listOfResults[type]"
+              [nzLabel]="o.name || o.brand"
+              [nzValue]="o"
+            ></nz-option>
+          </nz-option-group>
+          <span
+            >Found {{ getTypeLabel(type) }}:
+            {{ listOfResults[type + "Counts"] }}</span
+          >
+        </ng-container>
+      </ng-container>
+    </nz-select>
+    <ul nz-menu nzMode="horizontal" class="header-menu">
+      <!-- <li nz-menu-item nzSelected>Overview</li>
+        <li nz-menu-item>Dashboard</li>
+        <li nz-menu-item>Settings</li> -->
+      <li nz-menu-item>
+        <!-- <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input
+           [formControl]="searchFormControl"
+            type="text"
+            nz-input
+            placeholder="Search your required product or website"
+          />
+        </nz-input-group> -->
+        <!-- <nz-select
+          *ngIf="false"
+          class="showSearch desktop-search"
+          nzShowSearch
+          nzServerSearch
+          nzPlaceHolder="Search your required product or website"
+          [(ngModel)]="selectedValue"
+          [nzShowArrow]="false"
+          nzAllowClear
+          [nzFilterOption]="nzFilterOption"
+          (nzOnSearch)="onSearchInputChange($event)"
+          (ngModelChange)="onSelect($event)"
+        >
+          <ng-container
+            *ngFor="let type of ['affiliateItems', 'websites', 'categories']"
+          >
+            <ng-container
+              *ngIf="listOfResults[type] && listOfResults[type].length > 0"
+            >
+              <nz-option-group [nzLabel]="getLabel(type)">
+                <nz-option
+                  *ngFor="let o of listOfResults[type]"
+                  [nzLabel]="o.name || o.brand"
+                  [nzValue]="o"
+                ></nz-option>
+              </nz-option-group>
+              <span
+                >Found {{ getTypeLabel(type) }}:
+                {{ listOfResults[type + "Counts"] }}</span
+              >
+            </ng-container>
+          </ng-container>
+        </nz-select> -->
+      </li>
+      <li
+        *ngIf="isUserLoggedIn"
+        nz-menu-item
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="menu"
+      >
+        Profile
+      </li>
+      <li
+        *ngIf="isAdminLoggedIn"
+        nz-menu-item
+        (click)="onNavigateToDashbaord()"
+      >
+        Dashboard
+      </li>
+
+      <li
+        *ngIf="!isAdminLoggedIn && !isUserLoggedIn"
+        nz-menu-item
+        (click)="onLogin()"
+      >
+        Login
+      </li>
+    </ul>
+  </div>
+</nz-header>
+<ng-template #suffixIconSearch>
+  <span nz-icon nzType="search"></span>
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item [routerLink]="'/settings'">My Account</li>
+    <li nz-menu-item [routerLink]="'/earnings'">Earnings</li>
+    <li nz-menu-item [routerLink]="'/payment-history'">Payment Requests</li>
+    <li nz-menu-item [routerLink]="'/tickets'">Missing Cashback</li>
+    <li nz-menu-item [routerLink]="'/delete'">Delete Account</li>
+    <li nz-menu-item [routerLink]="'/refer'">Refer and Earn</li>
+    <li nz-menu-item [routerLink]="'/contact'">Contact Us</li>
+    <li nz-menu-item [routerLink]="'/about'">About</li>
+    <li nz-menu-item [routerLink]="'/terms'">Terms and Conditions</li>
+    <li nz-menu-item [routerLink]="'/privacy'">Privacy Policy</li>
+    <li nz-menu-item (click)="onLogOut()">Logout</li>
+    <!-- <li nz-menu-divider></li> -->
+    <!-- <li nz-submenu nzTitle="sub menu">
+      <ul>
+        <li nz-menu-item>3rd menu item</li>
+      </ul>
+    </li> -->
+  </ul>
+</nz-dropdown-menu>

@@ -1,0 +1,381 @@
+<nz-layout>
+  <app-dashboard-header></app-dashboard-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <app-sidebar [activeMenu]="'DEALS'"></app-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-page-header [nzGhost]="false">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+          <nz-breadcrumb-item>
+            <a href="/dashboard/home">Home</a>
+          </nz-breadcrumb-item>
+          <!-- <nz-breadcrumb-item>Overview</nz-breadcrumb-item> -->
+          <nz-breadcrumb-item>Affiliate Items</nz-breadcrumb-item>
+        </nz-breadcrumb>
+        <!-- <nz-page-header nzBackIcon [nzGhost]="false"> -->
+        <nz-page-header-title>Deals</nz-page-header-title>
+        <!-- <nz-page-header-subtitle>This is a subtitle</nz-page-header-subtitle> -->
+        <nz-page-header-extra>
+          <nz-space>
+            <!-- <button *nzSpaceItem nz-button>Secondary Action</button> -->
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              (click)="openCreateDrawer()"
+            >
+              Add New
+            </button>
+          </nz-space>
+        </nz-page-header-extra>
+        <nz-page-header-content>
+          <div class="flex">
+            <!-- <div class="flex-item">
+              <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input
+                  type="text"
+                  [formControl]="searchFormControl"
+                  nz-input
+                  placeholder="Search..."
+                />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+              </ng-template>
+            </div> -->
+            <div class="flex-item">
+              <nz-select
+                [nzSize]="'default'"
+                nzPlaceHolder="Select Category"
+                nzShowSearch
+                nzAllowClear
+                [(ngModel)]="listOfTagOptions"
+                (ngModelChange)="applyCategoryFilter($event)"
+              >
+                <nz-option
+                  *ngFor="let option of categories"
+                  [nzLabel]="option.name"
+                  [nzValue]="option._id"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+            <div
+              class="flex-item"
+              *ngIf="searchFormControl.value || categoryId"
+            >
+              <button
+                nz-button
+                nzType="text"
+                (click)="onResetFilter()"
+                nzDanger
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </nz-page-header-content>
+      </nz-page-header>
+      <nz-content>
+        <ng-container *ngIf="isDataLoad">
+          <nz-spin colspan="7" style="text-align: center" nzTip="Loading...">
+          </nz-spin>
+        </ng-container>
+        <nz-table
+          #basicTable
+          [nzFrontPagination]="false"
+          [nzData]="affiliateItems"
+        >
+          <thead>
+            <tr>
+              <th>Icon</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Cashback</th>
+              <th>Discount</th>
+              <th>Orignal Price</th>
+              <th>Deal Type</th>
+              <th>Created At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="!isDataLoad">
+              <tr *ngFor="let data of basicTable.data">
+                <td>
+                  <nz-avatar
+                    [nzShape]="'square'"
+                    [nzSize]="64"
+                    [nzSrc]="data.imageUrl"
+                  ></nz-avatar>
+                </td>
+                <td>{{ data.brand | titlecase }}</td>
+                <td>{{ data?.categoryId?.name }}</td>
+
+                <td>₹{{ data.cashback }}</td>
+                <td>₹{{ data.discount }}</td>
+                <td>₹{{ data.orignalPrice }}</td>
+                <td>
+                  {{ data.dealType }}
+                </td>
+
+                <td>{{ data.createdAt | date : "mediumDate" }}</td>
+                <td>
+                  <nz-space>
+                    <button
+                      *nzSpaceItem
+                      nz-button
+                      nzSize="default"
+                      nzType="primary"
+                      (click)="onEditForm(data)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      *nzSpaceItem
+                      nz-button
+                      nzSize="default"
+                      nzType="default"
+                      (click)="onDelete(data._id)"
+                    >
+                      Delete
+                    </button>
+                  </nz-space>
+                  <!-- <nz-divider nzType="vertical"></nz-divider> -->
+                  <!-- <a>Delete</a> -->
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+        <nz-pagination
+          [nzPageSize]="limit"
+          [nzPageIndex]="page"
+          [nzTotal]="totalCounts"
+          (nzPageIndexChange)="onChangePage($event)"
+        ></nz-pagination>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
+<nz-drawer
+  nzSize="large"
+  [nzVisible]="visible"
+  nzPlacement="right"
+  [nzTitle]="isEditMode ? 'Update ' : 'Add New '"
+  [nzExtra]="extra"
+  (nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <form nz-form [formGroup]="affiliateItemFG">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="url">
+          Url</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid url!"
+        >
+          <input nz-input formControlName="url" id="url" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dealHeadline">
+          Deal Headline</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Deal Headline!"
+        >
+          <input nz-input formControlName="dealHeadline" id="dealHeadline" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="imageUrl">
+          Item Image Url</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid  Url !"
+        >
+          <input nz-input formControlName="imageUrl" id="imageUrl" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="orignalPrice">
+          Orignal Price</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Orignal Price !"
+        >
+          <input nz-input formControlName="orignalPrice" id="orignalPrice" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="actualPrice">
+          Actual Price</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Actual Price !"
+        >
+          <input nz-input formControlName="actualPrice" id="actualPrice" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="websiteId"
+          >Website</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Website!"
+        >
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Select Website"
+            formControlName="websiteId"
+          >
+            <nz-option
+              *ngFor="let item of websiteData"
+              [nzLabel]="item.name"
+              [nzValue]="item._id"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="categoryId"
+          >Category</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Category!"
+        >
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Select category"
+            formControlName="categoryId"
+          >
+            <nz-option
+              *ngFor="let item of categories"
+              [nzLabel]="item.name"
+              [nzValue]="item._id"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="brand">
+          Brand Name</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Brand Name !"
+        >
+          <input nz-input formControlName="brand" id="brand" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="brandLogoUrl">
+          Brand Logo Url</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Brand Logo Url !"
+        >
+          <input nz-input formControlName="brandLogoUrl" id="brandLogoUrl" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cashback">
+          Cashback</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Cashback !"
+        >
+          <input nz-input formControlName="cashback" id="cashback" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="discount">
+          Discount</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid discount !"
+        >
+          <input nz-input formControlName="discount" id="discount" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dealType">
+          Deal Type</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid dealType !"
+        >
+          <input nz-input formControlName="dealType" id="dealType" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dealTimer">
+          Deal Timer</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid dealTimer !"
+        >
+          <nz-date-picker
+            nzFormat="yyyy/MM/dd"
+            [nzDisabledTime]
+            formControlName="dealTimer"
+          ></nz-date-picker>
+          <!-- <input nz-input formControlName="dealTimer" id="dealTimer" /> -->
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="description"
+          >Description</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid description!"
+        >
+          <textarea
+            nz-input
+            formControlName="description"
+            id="description"
+            placeholder="Enter description "
+            [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-drawer>
+<ng-template #extra>
+  <button nz-button nzType="default" (click)="close()">Cancel</button>
+  &nbsp;
+  <button nz-button nzType="primary" (click)="submitCreateForm()">Save</button>
+</ng-template>

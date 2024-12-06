@@ -1,0 +1,126 @@
+@import "../../../assets/styles/styles.scss";
+
+.page {
+  &__container {
+    width: calc(100vw - 64px);
+    max-width: 1600px;
+    margin: auto;
+    min-height: calc(100vh - 417px);
+    display: flex;
+    padding-top: 24px;
+  }
+}
+
+.inner-content {
+  padding: 24px;
+  background: $text-light-color;
+}
+
+.order {
+  &__details {
+    margin-top: 12px;
+    background-color: $primary-color;
+    h4 {
+      color: $text-light-color;
+    }
+  }
+}
+.order {
+  &__list {
+    padding: 0px 20px 20px;
+  }
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--ion-color-medium);
+    &_right {
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+    }
+    &_website {
+      font-size: 15px;
+      font-weight: 600;
+      height: 40px;
+      width: fit-content;
+      padding: 4px 20px;
+      border-radius: 8px;
+      background: rgba(var(--ion-color-primary-rgb), 0.1);
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      box-shadow: 4px 4px 8px rgba(var(--ion-color-primary-rgb), 0.1);
+      border: 1px solid rgba(var(--ion-color-primary-rgb), 0.1);
+    }
+    &_info {
+      font-size: 15px;
+      margin-bottom: 10px;
+      span {
+        color: var(--ion-color-medium);
+      }
+    }
+    &_reward {
+      font-size: 15px;
+      font-weight: 600;
+      span {
+        font-weight: 500;
+        color: var(--ion-color-medium);
+      }
+    }
+    &_status {
+      border-radius: 20px;
+      padding: 4px 12px 6px;
+      color: var(--ion-color-light);
+      background-color: var(--ion-color-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      //   font-weight: 600;
+      //   margin-right: 4px;
+      &.completed {
+        background-color: var(--ion-color-success);
+      }
+    }
+    &_action {
+      color: var(--ion-color-primary);
+      font-size: 13px;
+      margin-top: 6px;
+      text-align: right;
+      font-weight: 600;
+    }
+  }
+}
+
+.isDesktop {
+  display: block;
+}
+.isMobile {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .isDesktop {
+    display: none;
+  }
+  .isMobile {
+    display: block;
+  }
+  .page {
+    &__container {
+      width: calc(100vw - 16px);
+      flex-direction: column;
+    }
+  }
+}
+.order_details__card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.order_details__button {
+  display: flex;
+  margin-top: 15px;
+  justify-content: start;
+  margin-left: 18px;
+}

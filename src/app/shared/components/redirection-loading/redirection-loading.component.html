@@ -1,0 +1,19 @@
+<div class="loading__wrapper">
+  <div class="loading__media"></div>
+  <div class="loading__title">Cashback Activated</div>
+  <div class="loading__subtitle">
+    Please wait while we are fetching the cashback details
+  </div>
+  <div class="loading__animation">
+    <div class="loading__animation--left">
+      <img src="../../../../assets/images/mr-cashback-logo.png" />
+    </div>
+    <div class="loading__animation--center">
+      <nz-spin nzSimple></nz-spin>
+    </div>
+    <div class="loading__animation--right">
+      <!-- <img src="../../../../assets/images/myntra-logo.png" /> -->
+      <img [src]="baseUrl + redirectData" />
+    </div>
+  </div>
+</div>

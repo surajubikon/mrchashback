@@ -1,0 +1,37 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light" *ngIf="isSidebarVisible">
+      <app-web-sidebar [activeMenu]="'HOME'"></app-web-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="hero__container">
+          <h1>{{ selectedItem.brand || "Deals" | titlecase }}</h1>
+          <p>
+            Explore offers for
+            {{ selectedItem.brand || "Deals" | titlecase }} and Win exciting
+            cashbacks
+          </p>
+        </div>
+        <nz-segmented
+          (nzValueChange)="handleSegmentChange($event)"
+          [nzOptions]="options"
+          [nzBlock]="true"
+        ></nz-segmented>
+        <nz-layout class="section">
+          <div class="section__list">
+            <app-affiliate-item-card
+              class="c-pointer"
+              *ngFor="let item of affilateItems"
+              [item]="item"
+              (click)="onRedirectToDetails(item)"
+            ></app-affiliate-item-card>
+          </div>
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+  <app-web-footer></app-web-footer>
+</nz-layout>

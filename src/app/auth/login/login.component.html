@@ -1,0 +1,318 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container" *ngIf="!isModalOpen">
+        <div class="flex-item login__form">
+          <form nz-form [formGroup]="validateForm">
+            <div class="video">
+              <video
+                #videoPlayer
+                src="../../../assets/login-video.mp4"
+                poster="../../../assets/thumbnail.png"
+                (click)="togglePlayPause(videoPlayer)"
+              ></video>
+              <!-- <video
+                src="../../../assets/login-video.mp4"
+                poster="../../../assets/thumbnail.png"
+                onclick="this.play()"
+              ></video> -->
+            </div>
+            <div class="login__form--title">Welcome back!</div>
+            <nz-form-item>
+              <nz-form-control [nzErrorTip]="userNameErrorTpl">
+                <nz-input-group nzPrefixIcon="user">
+                  <input
+                    type="tel"
+                    nz-input
+                    formControlName="userName"
+                    placeholder="Mobile"
+                    maxlength="10"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+              <ng-template #userNameErrorTpl>
+                <ng-container
+                  *ngIf="
+                    validateForm.get('userName')?.touched &&
+                    validateForm.get('userName')?.invalid
+                  "
+                >
+                  Please input your registered mobile!
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+
+            <nz-form-item *ngIf="!isOTPReq">
+              <nz-form-control [nzErrorTip]="userPasswordErrorTpl">
+                <nz-input-group nzPrefixIcon="lock">
+                  <input
+                    type="password"
+                    nz-input
+                    formControlName="password"
+                    placeholder="Password"
+                  />
+                </nz-input-group>
+                <ng-template #userPasswordErrorTpl>
+                  <ng-container
+                    *ngIf="
+                      validateForm.get('password')?.touched &&
+                      validateForm.get('password')?.invalid
+                    "
+                  >
+                    Please input your Password!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <div nz-row class="login-form-margin">
+              <div nz-col [nzSpan]="12">
+                <!-- <label nz-checkbox formControlName="remember">
+            <span>Remember me</span>
+          </label> -->
+              </div>
+              <!-- <div nz-col [nzSpan]="12">
+                <a class="login-form-forgot">Forgot password</a>
+              </div> -->
+            </div>
+            <button
+              nz-button
+              nzType="primary"
+              class="w-100 login-form-margin"
+              [nzLoading]="isLoading"
+              (click)="submitForm()"
+              *ngIf="!isOTPReq"
+            >
+              LOGIN
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              class="w-100 login-form-margin"
+              [nzLoading]="isLoading"
+              [class.button-disabled]="!validateForm.get('userName')?.valid"
+              (click)="onOTPRequest()"
+              *ngIf="isOTPReq"
+            >
+              Get OTP
+            </button>
+
+            <div class="action__wrapper" *ngIf="isOTPReq">
+              <span (click)="onChangeLoginType()">Login with password</span>
+            </div>
+            <div class="action__wrapper" *ngIf="!isOTPReq">
+              <span (click)="onChangeLoginType()">Login with OTP</span>
+            </div>
+            <!-- <div class="login__form--footer">
+              Don't have an account?
+              <a routerLink="/register">Register Now</a>
+            </div> -->
+          </form>
+          <!-- <button nz-button nzType="primary">Login</button> -->
+        </div>
+      </nz-content>
+      <nz-content class="page__container" *ngIf="isModalOpen">
+        <div class="flex-item login__form">
+          <div class="verify__text">
+            <div class="verify__text--subtitle">
+              We've sent a 6 digit code to your number
+              <div class="verify__text--mobile" (click)="onCancelModal()">
+                +91-{{ validateForm.value.userName }}&nbsp;<span
+                  ><span nz-icon nzType="edit" nzTheme="outline"></span
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- <nz-form-item>
+          <nz-form-label
+            [nzSm]="6"
+            [nzXs]="24"
+            nzRequired
+            nzFor="verificationCode"
+          >
+            Enter Verification Code
+          </nz-form-label>
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="The input is not a valid verification code!"
+          >
+            <input
+              type="number"
+              nz-input
+              [formControl]="otpFormControl"
+              placeholder="ENTER OTP"
+              maxlength="10"
+            />
+             <input
+              nz-input
+              [formControl]="otpFormControl"
+              id="verificationCode"
+            /> 
+          </nz-form-control>
+        </nz-form-item> -->
+          <div class="flex-item login__form">
+            <nz-form-item>
+              <nz-form-control [nzErrorTip]="verificationCodeErrorTpl">
+                <nz-input-group nzPrefixIcon="lock">
+                  <input
+                    type="number"
+                    nz-input
+                    [formControl]="otpFormControl"
+                    placeholder="ENTER OTP"
+                    maxlength="6"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+              <ng-template #verificationCodeErrorTpl>
+                <ng-container
+                  *ngIf="otpFormControl.touched && otpFormControl.invalid"
+                >
+                  The input is not a valid verification code!
+                </ng-container>
+              </ng-template>
+            </nz-form-item>
+          </div>
+
+          <ng-container *ngIf="resendOtpTimer$ | async as otpTimer">
+            <button
+              nzType="primary"
+              class="w-100 login-form-margin"
+              [class.button-disabled]="!otpFormControl.valid"
+              *ngIf="otpTimer > 1"
+              nz-button
+              (click)="onVerifyOTP()"
+            >
+              Confirm OTP
+            </button>
+            <div class="action__wrapper" *ngIf="otpTimer >= 0">
+              <span> Resend OTP in {{ otpTimer }} sec </span>
+            </div>
+            <div *ngIf="otpTimer < 1" class="action__wrapper active">
+              <span (click)="onCancelModal()"> Resend OTP </span>
+            </div>
+          </ng-container>
+        </div>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
+
+<!-- <nz-drawer
+  nzSize="large"
+  [nzVisible]="isModalOpen"
+  nzPlacement="right"
+  [nzTitle]="'Change Mobile'"
+  [nzExtra]="extra"
+  (nzOnClose)="onCancelModal()"
+> -->
+<!-- <nz-modal
+  [(nzVisible)]="isModalOpen"
+  nzTitle="Change Mobile"
+  (nzOnCancel)="onCancelModal()"
+  [nzExtra]="extra"
+>
+  <ng-container *nzModalContent>
+    <div class="verify__text">
+      <div class="verify__text--subtitle">
+        We've sent a 6 digit code to your number
+        <div class="verify__text--mobile">
+          +91-{{ validateForm.value.userName }}
+        </div>
+      </div>
+    </div>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="verificationCode">
+        Enter Verification Code
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid verification code!"
+      >
+        <input nz-input [formControl]="otpFormControl" id="verificationCode" />
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+</nz-modal>
+
+<ng-template #extra>
+  <ng-container *ngIf="resendOtpTimer$ | async as otpTimer">
+    <div *ngIf="otpTimer >= 0" class="verify__resend">
+      Resend OTP in {{ otpTimer }} sec
+    </div>
+    <div
+      (click)="onCancelModal()"
+      *ngIf="otpTimer < 1"
+      class="verify__resend active"
+    >
+      Resend OTP
+    </div>
+    <button
+      [class.button-disabled]="!otpFormControl.valid"
+      *ngIf="otpTimer > 1"
+      nz-button
+      nzType="primary"
+      (click)="onVerifyOTP()"
+    >
+      Confirm OTP
+    </button>
+  </ng-container>
+</ng-template> -->
+<!-- <nz-modal
+  [(nzVisible)]="isModalOpen"
+  nzTitle="Change Mobile"
+  (nzOnCancel)="onCancelModal()"
+  [nzFooter]="null"
+>
+  <ng-container *nzModalContent>
+    <div class="verify__text">
+      <div class="verify__text--subtitle">
+        We've sent a 6 digit code to your number
+        <div class="verify__text--mobile">
+          +91-{{ validateForm.value.userName }}
+        </div>
+      </div>
+    </div>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="verificationCode">
+        Enter Verification Code
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not a valid verification code!"
+      >
+        <input nz-input [formControl]="otpFormControl" id="verificationCode" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <ng-container *ngIf="resendOtpTimer$ | async as otpTimer">
+      <div *ngIf="otpTimer >= 0" class="verify__resend">
+        Resend OTP in {{ otpTimer }} sec
+      </div>
+      <div
+        (click)="onCancelModal()"
+        *ngIf="otpTimer < 1"
+        class="verify__resend active"
+      >
+        Resend OTP
+      </div>
+      <button
+        [class.button-disabled]="!otpFormControl.valid"
+        *ngIf="otpTimer > 1"
+        nz-button
+        nzType="primary"
+        (click)="onVerifyOTP()"
+      >
+        Confirm OTP
+      </button>
+    </ng-container>
+  </ng-container>
+</nz-modal> -->

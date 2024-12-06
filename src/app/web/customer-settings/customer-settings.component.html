@@ -1,0 +1,212 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <nz-sider nzWidth="200px" nzTheme="light" class="isDesktop">
+          <app-profile-sidebar
+            [active]="'ACCOUNT'"
+            class="isDesktop"
+          ></app-profile-sidebar>
+        </nz-sider>
+        <app-profile-sidebar
+          [active]="'ACCOUNT'"
+          class="isMobile"
+        ></app-profile-sidebar>
+        <nz-content class="inner-content">
+          <nz-tabset>
+            <nz-tab nzTitle="Profile Details">
+              <div class="profile__form">
+                <form
+                  [formGroup]="profileFormGroup"
+                  nz-form
+                  nzLayout="vertical"
+                >
+                  <nz-form-item>
+                    <nz-form-label nzFor="paytmNumber">Mobile</nz-form-label>
+                    <nz-form-control nzErrorTip="Please input your full name!">
+                      <nz-input-group>
+                        <input
+                          readonly
+                          formControlName="paytmNumber"
+                          type="text"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="name">Full Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Please input your full name!">
+                      <nz-input-group>
+                        <input formControlName="name" type="text" nz-input />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="bankName">Bank Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Please input your bank name!">
+                      <nz-input-group>
+                        <input
+                          formControlName="bankName"
+                          type="text"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="bankIFSC"
+                      >Bank IFSC Code</nz-form-label
+                    >
+                    <nz-form-control
+                      nzErrorTip="Please input your bank IFSC Code!"
+                    >
+                      <nz-input-group>
+                        <input
+                          formControlName="bankIFSC"
+                          type="text"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="bankAcc"
+                      >Bank A/C Number</nz-form-label
+                    >
+                    <nz-form-control
+                      nzErrorTip="Please input your bank account number!"
+                    >
+                      <nz-input-group>
+                        <input
+                          formControlName="bankAccNum"
+                          type="text"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="upiId">UPI ID</nz-form-label>
+                    <nz-form-control nzErrorTip="Please input your UPI ID !">
+                      <nz-input-group>
+                        <input formControlName="upiId" type="text" nz-input />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="panCard">PAN</nz-form-label>
+                    <nz-form-control
+                      nzErrorTip="Please input your Pan Card number!"
+                    >
+                      <nz-input-group>
+                        <input formControlName="panCard" type="text" nz-input />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+
+                  <!-- <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input your Password!">
+                      <nz-input-group nzPrefixIcon="lock">
+                        <input
+                          type="password"
+                          nz-input
+                          placeholder="Password"
+                          formControlName="name"
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item> -->
+                  <div nz-row class="login-form-margin">
+                    <div nz-col [nzSpan]="12"></div>
+                  </div>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    class="w-100 login-form-margin"
+                    [nzLoading]="isLoading"
+                    (click)="onUpdateProfile()"
+                  >
+                    SAVE CHANGES
+                  </button>
+                  <div class="profile__form--footer">
+                    <a [routerLink]="'/delete'">Delete Account</a>
+                  </div>
+                </form>
+              </div>
+            </nz-tab>
+            <nz-tab nzTitle="Password">
+              <div class="profile__form">
+                <form
+                  [formGroup]="changePasswordFormGroup"
+                  nz-form
+                  nzLayout="vertical"
+                >
+                  <!-- <nz-form-item>
+                    <nz-form-label nzFor="currentPassword"
+                      >Current Password</nz-form-label
+                    >
+                    <nz-form-control nzErrorTip="Please input your full name!">
+                      <nz-input-group>
+                        <input
+                          formControlName="currentPassword"
+                          type="password"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item> -->
+                  <nz-form-item>
+                    <nz-form-label nzFor="password">Password</nz-form-label>
+                    <nz-form-control nzErrorTip="Please enter your password!">
+                      <nz-input-group>
+                        <input
+                          formControlName="password"
+                          type="password"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label nzFor="confirmPassword"
+                      >Confirm Password</nz-form-label
+                    >
+                    <nz-form-control
+                      nzErrorTip="Please re-enter your new password!"
+                    >
+                      <nz-input-group>
+                        <input
+                          formControlName="confirmPassword"
+                          type="text"
+                          nz-input
+                        />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+
+                  <div nz-row class="login-form-margin">
+                    <div nz-col [nzSpan]="12"></div>
+                  </div>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    class="w-100 login-form-margin"
+                    [nzLoading]="isLoading"
+                    (click)="changePassword()"
+                  >
+                    SAVE CHANGES
+                  </button>
+                </form>
+              </div>
+            </nz-tab>
+          </nz-tabset>
+        </nz-content>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

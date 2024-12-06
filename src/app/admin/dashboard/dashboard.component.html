@@ -1,0 +1,78 @@
+<nz-layout>
+  <app-dashboard-header></app-dashboard-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <app-sidebar [activeMenu]="'DASHBOARD'"></app-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-page-header [nzGhost]="false">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+          <nz-breadcrumb-item>
+            <a href="/dashboard/home">Home</a>
+          </nz-breadcrumb-item>
+          <!-- <nz-breadcrumb-item>Overview</nz-breadcrumb-item> -->
+          <nz-breadcrumb-item>Overview</nz-breadcrumb-item>
+        </nz-breadcrumb>
+        <nz-page-header-title>Overview</nz-page-header-title>
+      </nz-page-header>
+      <nz-content>
+        <ng-container *ngIf="isDataLoad">
+          <nz-spin colspan="7" style="text-align: center" nzTip="Loading...">
+          </nz-spin>
+        </ng-container>
+        <nz-row [nzGutter]="[16, 16]" *ngIf="!isDataLoad">
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="stats.ACTIVE_CUSTOMERS"
+                [nzTitle]="'Active Customers'"
+              ></nz-statistic>
+            </nz-card>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="stats.PAID_REQUESTS"
+                [nzTitle]="'Payment Requests'"
+              ></nz-statistic>
+            </nz-card>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="stats.LEADS"
+                [nzTitle]="'Total Leads'"
+              ></nz-statistic>
+            </nz-card>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="stats.ACTIVE_LEADS"
+                [nzTitle]="'Open Orders'"
+              ></nz-statistic>
+            </nz-card>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="'₹' + (parseValue(totalAmount) | kConverter)"
+                [nzTitle]="'Total Open Amount'"
+              ></nz-statistic>
+            </nz-card>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="
+                  '₹' + (parseTotalValue(stats?.TOTAL_AMOUNT) || 0 | kConverter)
+                "
+                [nzTitle]="'Total Closed Amount'"
+              ></nz-statistic>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,24 @@
+<!-- <ul nz-menu nzMode="inline" class="sider-menu isDesktop"> -->
+<ul nz-menu nzMode="inline" class="sider-menu">
+  <li
+    nz-menu-item
+    [nzSelected]="active === item.id"
+    *ngFor="let item of menuOptions"
+    [routerLink]="item.url"
+  >
+    <!-- <span nz-icon nzType="user"></span> -->
+    <span>{{ item.label }}</span>
+  </li>
+</ul>
+
+<ul nz-menu nzMode="horizontal" class="sider-menu isMobile" *ngIf="false">
+  <li
+    nz-menu-item
+    [nzSelected]="active === item.id"
+    *ngFor="let item of menuOptions"
+    [routerLink]="item.url"
+  >
+    <!-- <span nz-icon nzType="user"></span> -->
+    <span>{{ item.label }}</span>
+  </li>
+</ul>

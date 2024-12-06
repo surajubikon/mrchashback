@@ -1,0 +1,68 @@
+.page {
+  &__container {
+    width: calc(100vw - 64px);
+    max-width: 1600px;
+    margin: auto;
+    min-height: calc(100vh - 417px);
+    display: flex;
+  }
+}
+.registration {
+  &__form {
+    max-width: 400px;
+    margin: auto;
+    min-width: 300px;
+    &--title {
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    nz-form-item {
+      margin-bottom: 20px;
+
+      nz-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: left;
+        display: block;
+      }
+
+      nz-form-control {
+        max-width: 400px;
+        margin: auto;
+        min-width: 300px;
+
+        .ant-input-group-addon {
+          font-size: 16px;
+          color: #333;
+        }
+
+        .ant-input {
+          font-size: 16px;
+        }
+
+        .ant-input-affix-wrapper {
+          border-radius: 4px;
+        }
+      }
+    }
+
+    .login-form-margin {
+      margin-bottom: 12px;
+      max-width: 400px;
+      min-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      text-align: center; // Ensure the button takes up full width
+    }
+
+    &--footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 16px;
+    }
+  }
+}

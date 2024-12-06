@@ -1,0 +1,53 @@
+@import "../../../assets/styles/styles.scss";
+
+.page {
+  &__container {
+    width: calc(100vw - 64px);
+    max-width: 1600px;
+    margin: auto;
+  }
+}
+
+.hero {
+  &__container {
+    height: 200px;
+    background: $primary-color;
+    color: $text-light-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    h1 {
+      color: $text-light-color;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  min-height: calc(100vh - 720px);
+  max-width: 440px;
+  margin: auto;
+  &__title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  &__subtitle {
+    text-align: center;
+    margin-top: 16px;
+  }
+  &__form {
+    width: 100%;
+  }
+}

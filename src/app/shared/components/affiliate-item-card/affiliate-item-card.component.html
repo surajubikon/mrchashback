@@ -1,0 +1,21 @@
+<nz-card class="card">
+  <div class="card__inner">
+    <img [src]="item.imageUrl" alt="" srcset="" />
+    <!-- <img [src]="baseUrl + item.imageUrl" alt="" srcset="" /> -->
+    <div class="card__brand">
+      Brand: <span>{{ item.brand | titlecase }}</span>
+    </div>
+    <p>{{ item.dealHeadline }}</p>
+    <div class="card__price">
+      <span class="card__price-actual"> ₹{{ item.orignalPrice }} </span>
+      <span class="card__price-offer"> ₹{{ item.discount }} </span>
+      <span class="card__price-discount">
+        ({{
+          ((item.orignalPrice - item.discount) / item.orignalPrice) * 100
+            | number : "1.0-0"
+        }}% Off)
+      </span>
+    </div>
+    <div class="card__timer">{{ item.displayTimer }}</div>
+  </div>
+</nz-card>

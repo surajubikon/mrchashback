@@ -1,0 +1,307 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <nz-sider nzWidth="200px" nzTheme="light" class="isDesktop">
+          <app-profile-sidebar
+            [active]="'EARNINGS'"
+            class="isDesktop"
+          ></app-profile-sidebar>
+        </nz-sider>
+        <app-profile-sidebar
+          [active]="'EARNINGS'"
+          class="isMobile"
+        ></app-profile-sidebar>
+        <nz-content class="inner-content">
+          <nz-card>
+            <nz-statistic
+              [nzPrefix]="'₹'"
+              [nzValue]="
+                ((wallet.totalIncome || 0) - (wallet.amount || 0) | number)!
+              "
+              [nzTitle]="'Total Earnings'"
+            ></nz-statistic>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              (click)="openRequestModal(wallet.amount)"
+            >
+              Withdrawal
+            </button>
+            <div>
+              <!-- <small>...</small> -->
+
+              <!-- <h4>
+                <strong>Recent Transactions </strong>
+              </h4>
+              <div
+                class="wallet__transactions--item"
+                *ngFor="let transaction of transactions; index as i"
+              >
+                <div class="row">
+                  <div
+                    class="col-2 wallet__transactions--item-icon"
+                    [ngClass]="
+                      transaction.type === 'CREDIT' ? 'credit' : 'debit'
+                    "
+                  >
+                    <div>
+                      <i
+                        [class]="
+                          transaction.type === 'CREDIT'
+                            ? 'arrow-up'
+                            : 'arrow-down'
+                        "
+                        [style.color]="
+                          transaction.type === 'CREDIT' ? 'green' : 'red'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="col-10">
+                    <div class="wallet__transactions--item-message">
+                      You have
+                      {{
+                        transaction.type === "CREDIT"
+                          ? "earned ₹" + transaction.amount
+                          : "withdrawal ₹" + transaction.amount
+                      }}
+                    </div>
+                    <div class="wallet__transactions--item-time">
+                      {{ transaction.createdAt | date : "medium" }}
+                    </div>
+                  </div>
+                </div>
+                <nz-empty *ngIf="transactions.length < 1"></nz-empty>
+              </div>-->
+            </div>
+          </nz-card>
+          <nz-tabset>
+            <nz-tab
+              nzTitle="Recent Transactions"
+              (nzClick)="fetchTransactions()"
+            >
+              <nz-card *ngFor="let transaction of transactions">
+                <!-- <div>Withdrawal Amount: ₹ {{ reqItem.amount || 0 }}</div>
+                  <div>
+                    <small
+                      >Requested at:
+                      {{ reqItem.createdAt | date : "medium" }}</small
+                    >
+                  </div> -->
+                <div class="row">
+                  <div
+                    class="col-2 wallet__transactions--item-icon"
+                    [ngClass]="
+                      transaction.type === 'CREDIT' ? 'credit' : 'debit'
+                    "
+                  >
+                    <div>
+                      <i
+                        [class]="
+                          transaction.type === 'CREDIT'
+                            ? 'arrow-up'
+                            : 'arrow-down'
+                        "
+                        [style.color]="
+                          transaction.type === 'CREDIT' ? 'green' : 'red'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="col-10">
+                    <div class="wallet__transactions--item-message">
+                      You have
+                      {{
+                        transaction.type === "CREDIT"
+                          ? "earned ₹" + transaction.amount
+                          : "withdrawal ₹" + transaction.amount
+                      }}
+                    </div>
+                    <div class="wallet__transactions--item-time">
+                      {{ transaction.createdAt | date : "medium" }}
+                    </div>
+                  </div>
+                </div>
+              </nz-card>
+              <nz-empty *ngIf="transactions.length < 1"></nz-empty>
+            </nz-tab>
+            <nz-tab nzTitle="My Order Details" (nzClick)="fetchLeads()">
+              <nz-card>
+                <div class="order_details__card">
+                  <nz-statistic
+                    [nzPrefix]="'₹'"
+                    [nzValue]="(wallet.pendingAmount || 0 |removeDecimal | number )!"
+                    [nzTitle]="'Pending Amounts'"
+                  ></nz-statistic>
+
+                  <nz-statistic
+                    [nzPrefix]="'₹'"
+                    [nzValue]="(wallet.referralAmount || 0 |removeDecimal | number)!"
+                    [nzTitle]="'Referral Amount'"
+                  ></nz-statistic>
+
+                  <nz-statistic
+                    [nzPrefix]="'₹'"
+                    [nzValue]="(wallet.amount || 0 |removeDecimal| number)!"
+                    [nzTitle]="'Ready for Withdrawal'"
+                  ></nz-statistic>
+                </div>
+                <div class="order_details__button">
+                  <button
+                    nz-button
+                    class="w-10"
+                    nzType="primary"
+                    (click)="openRequestModal(wallet.amount)"
+                  >
+                    Withdrawal
+                  </button>
+                </div>
+              </nz-card>
+              <nz-card *ngFor="let lead of leads">
+                <div class="order__item_left">
+                  <div class="order__item_website">
+                    {{ lead.website_name || "-" | uppercase }}
+                  </div>
+                  <div class="order__item_info">
+                    <span>Order ID: </span
+                    >{{ lead.subid.split("-")[1] | uppercase }}
+                  </div>
+                  <div class="order__item_reward">
+                    <span>Rewards: </span> ₹{{
+                      lead.payment_sum_approved || lead.payment_sum_open
+                    }}
+                  </div>
+                </div>
+                <div class="order__item_right">
+                  <div
+                    class="order__item_status"
+                    [ngClass]="
+                      lead.payment_sum_approved ? 'completed' : 'pending'
+                    "
+                  >
+                    {{
+                      lead.payment_sum_approved
+                        ? "Completed"
+                        : lead.payment_sum_declined
+                        ? lead.payment_sum_declined > 0
+                          ? "Declined"
+                          : "Pending"
+                        : "Pending"
+                    }}
+                  </div>
+
+                  <!-- <div class="order__item_action">View more</div> -->
+                </div>
+                <button
+                  nz-button
+                  nzType="primary"
+                  class="w-10"
+                  (click)="onSelect(lead)"
+                >
+                  Report Missing Cashback
+                </button>
+              </nz-card>
+              <nz-empty *ngIf="leads.length < 1"></nz-empty>
+            </nz-tab>
+          </nz-tabset>
+
+          <!-- <nz-card class="order__details">
+            <h4>
+              <strong> My Order Details </strong>
+            </h4>
+            <button nz-button nzType="default" [nzLoading]="false">
+              View Details
+            </button>
+          </nz-card>  -->
+        </nz-content>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Missing Cashback"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <ng-container *nzModalContent>
+    <div class="order__item_left">
+      <div class="order__item_website">
+        {{ selelctedLeads.website_name || "-" | uppercase }}
+      </div>
+      <div class="order__item_info">
+        <span>Order ID: </span
+        >{{
+          selelctedLeads && selelctedLeads?.subid
+            ? selelctedLeads.subid.split("-")[1]
+            : ("" | uppercase)
+        }}
+      </div>
+      <div class="order__item_reward">
+        <span>Rewards: </span> ₹{{
+          selelctedLeads.payment_sum_approved || selelctedLeads.payment_sum_open
+        }}
+      </div>
+      <div *ngIf="list?.customerComment">
+        <p><span>Ticket ID: </span> {{ list.ticketID }}</p>
+        <p><span>Status: </span> {{ list.status | titlecase }}</p>
+      </div>
+
+      <nz-form-item>
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzRequired
+          nzFor="customerCommentFC"
+        >
+          Comment</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="The input is not valid Comment!"
+        >
+          <textarea
+            [readOnly]="list?.customerComment"
+            rows="4"
+            nz-input
+            placeholder="Please enter your Comment!"
+            [formControl]="customerCommentFC"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </ng-container>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="isWithdrawalModal"
+  nzTitle="Withdrawal Request"
+  (nzOnCancel)="onCloseWithdrawalModal()"
+  (nzOnOk)="onSendRequest()"
+>
+  <ng-container *nzModalContent>
+    <div class="modal-content">
+      <div class="modal-body">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please Enter Amount!">
+            <nz-input-group nzPrefixIcon="₹">
+              <input
+                type="number"
+                nz-input
+                [formControl]="withdrawalAmountFormControl"
+                placeholder="Enter Amount"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

@@ -1,0 +1,223 @@
+<!-- <ul nz-menu nzMode="inline" class="sider-menu">
+  <li
+    nz-submenu
+    [nzOpen]="activeMenu === 'USERS'"
+    nzIcon="user"
+    nzTitle="Users"
+  >
+    <ul>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'USERS'"
+        [routerLink]="['/dashboard/users']"
+      >
+        Employees
+      </li>
+    </ul>
+  </li>
+  <li
+    nz-submenu
+    [nzOpen]="
+      activeMenu === 'MODELS' ||
+      activeMenu === 'AGGREGATES' ||
+      activeMenu === 'CONTENT_MASTERS' ||
+      activeMenu === 'CONTENT_GROUPS'
+    "
+    nzTitle="Manuals"
+    nzIcon="laptop"
+  >
+    <ul>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'MODELS'"
+        [routerLink]="['/dashboard/models']"
+        routerLinkActive="router-link-active"
+      >
+        Models
+      </li>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'AGGREGATES'"
+        [routerLink]="['/dashboard/aggregates']"
+        routerLinkActive="router-link-active"
+      >
+        Aggregates
+      </li>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'CONTENT_MASTERS'"
+        [routerLink]="['/dashboard/content-masters']"
+        routerLinkActive="router-link-active"
+      >
+        Content Masters
+      </li>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'CONTENT_GROUPS'"
+        [routerLink]="['/dashboard/content-groups']"
+        routerLinkActive="router-link-active"
+      >
+        Content Groups
+      </li>
+    </ul>
+  </li>
+  <li
+    nz-submenu
+    nzTitle="Other option"
+    nzIcon="notification"
+    [nzOpen]="activeMenu === 'SPECIAL_TOOLS' || activeMenu === 'MEDIA_LIBRARY'"
+  >
+    <ul>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'SPECIAL_TOOLS'"
+        [routerLink]="['/dashboard/special-tools']"
+        routerLinkActive="router-link-active"
+      >
+        Special Tools
+      </li>
+      <li
+        nz-menu-item
+        [nzSelected]="activeMenu === 'MEDIA_LIBRARY'"
+        [routerLink]="['/dashboard/media-library']"
+        routerLinkActive="router-link-active"
+      >
+        Media Library
+      </li>
+
+      <li nz-menu-item>option</li>
+      <li nz-menu-item>option</li>
+    </ul>
+  </li>
+</ul> -->
+<ul nz-menu nzMode="inline" class="sider-menu">
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/home']"
+    nzIcon="dashboard"
+    [nzSelected]="activeMenu === 'DASHBOARD'"
+  >
+    Dashboard
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/stores']"
+    nzIcon="global"
+    [nzSelected]="activeMenu === 'STORES'"
+  >
+    Stores (Websites)
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/deals']"
+    nzIcon="dollar"
+    [nzSelected]="activeMenu === 'DEALS'"
+  >
+    Deals (Affiliate Items)
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/categories']"
+    nzIcon="appstore"
+    [nzSelected]="activeMenu === 'CATEGORIES'"
+  >
+    Categories
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/banners']"
+    nzIcon="tag"
+    [nzSelected]="activeMenu === 'BANNERS'"
+  >
+    Banners
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/customers']"
+    nzIcon="team"
+    [nzSelected]="activeMenu === 'CUSTOMERS'"
+  >
+    Customers
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/payment-requests']"
+    nzIcon="credit-card"
+    [nzSelected]="activeMenu === 'PAYMENT-REQUESTS'"
+  >
+    Payment Requests
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/missing-cashback']"
+    nzIcon="audit"
+    [nzSelected]="activeMenu === 'MISSING-CASHBACK'"
+  >
+    Missing Cashback
+  </li>
+  <!-- <li
+    nz-menu-item
+    [routerLink]="['/dashboard/referral-earnings']"
+    nzIcon="user-switch"
+    [nzSelected]="activeMenu === 'REFERRAL_EARNINGS'"
+  >
+    Referral Earnings
+  </li> -->
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/referral-earnings-reports']"
+    nzIcon="user-switch"
+    [nzSelected]="activeMenu === 'REFERRAL_EARNINGS_REPORTS'"
+  >
+    Referral Earnings 
+  </li>
+
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/leads']"
+    nzIcon="usergroup-add"
+    [nzSelected]="activeMenu === 'LEADS'"
+  >
+    Leads
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/open-orders']"
+    nzIcon="file-search"
+    [nzSelected]="activeMenu === 'OPEN-ORDERS'"
+  >
+    Open Orders
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/closed-orders']"
+    nzIcon="file-done"
+    [nzSelected]="activeMenu === 'CLOSED-ORDERS'"
+  >
+    Closed Orders
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/notifications']"
+    nzIcon="bell"
+    [nzSelected]="activeMenu === 'NOTIFICATIONS'"
+  >
+    Notifications
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/version']"
+    nzIcon="diff"
+    [nzSelected]="activeMenu === 'VERSION'"
+  >
+    Version
+  </li>
+  <li
+    nz-menu-item
+    [routerLink]="['/dashboard/settings']"
+    nzIcon="setting"
+    [nzSelected]="activeMenu === 'SETTINGS'"
+  >
+    Settings
+  </li>
+</ul>

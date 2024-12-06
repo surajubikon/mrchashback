@@ -1,0 +1,37 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <nz-sider nzWidth="200px" nzTheme="light" class="isDesktop">
+          <app-profile-sidebar
+            [active]="'HOWTOUSE'"
+            class="isDesktop"
+          ></app-profile-sidebar>
+        </nz-sider>
+        <app-profile-sidebar
+          [active]="'HOWTOUSE'"
+          class="isMobile"
+        ></app-profile-sidebar>
+        <nz-content class="inner-content">
+          <p><strong>Earn with Mr.Cashback</strong></p>
+          <h4>
+            Let's walk you through the simple steps of using and earning with
+            Mr.Cashback app!
+          </h4>
+          <div class="how__video">
+            <video
+              #videoPlayer
+              src="../../assets/login-video.mp4"
+              poster="../../assets/thumbnail.png"
+              (click)="togglePlayPause(videoPlayer)"
+            ></video>
+          </div>
+        </nz-content>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

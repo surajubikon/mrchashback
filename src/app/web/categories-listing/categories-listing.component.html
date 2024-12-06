@@ -1,0 +1,32 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light" *ngIf="false">
+      <app-web-sidebar [activeMenu]="'HOME'"></app-web-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="hero__container">
+          <h1>All Categories</h1>
+          <p>
+            Explore offers from our wide range of categories and Win exciting
+            cashbacks
+          </p>
+        </div>
+        <!-- <nz-segmented [nzOptions]="sortOptions" [nzBlock]="true"></nz-segmented> -->
+        <nz-layout class="section">
+          <div class="section__list">
+            <app-category-card
+              class="c-pointer"
+              *ngFor="let item of allCategories"
+              [item]="item"
+              [routerLink]="'/stores'"
+            ></app-category-card>
+          </div>
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+  <app-web-footer></app-web-footer>
+</nz-layout>

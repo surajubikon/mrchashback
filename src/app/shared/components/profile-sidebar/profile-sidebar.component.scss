@@ -1,0 +1,14 @@
+.isDesktop {
+  display: block;
+}
+.isMobile {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .isDesktop {
+    display: none;
+  }
+  .isMobile {
+    display: block;
+  }
+}

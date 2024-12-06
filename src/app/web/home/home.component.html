@@ -1,0 +1,125 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light" *ngIf="isSidebarVisible">
+      <app-web-sidebar [activeMenu]="'HOME'"></app-web-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="carousel__container">
+          <nz-carousel nzAutoPlay [nzDotPosition]="'bottom'" #carousel>
+            <div
+              nz-carousel-content
+              *ngFor="let item of allBanner; let index = index"
+            >
+              <img
+                width="100%"
+                [src]="baseUrl + item.mediaPath"
+                alt=""
+                srcset=""
+              />
+              <div class="carousel__arrow carousel__arrow--prev">
+                <button
+                  nz-button
+                  nzType="default"
+                  nzShape="circle"
+                  (click)="pre()"
+                >
+                  <i nz-icon nzType="left"></i>
+                </button>
+              </div>
+              <div class="carousel__arrow carousel__arrow--next">
+                <button
+                  nz-button
+                  nzType="default"
+                  nzShape="circle"
+                  (click)="next()"
+                >
+                  <i nz-icon nzType="right"></i>
+                </button>
+              </div>
+              <!-- <p>{{ index }}</p> -->
+            </div>
+          </nz-carousel>
+        </div>
+        <nz-layout class="section">
+          <div class="section__header">
+            <h3>Top Stores</h3>
+            <div class="section__header--action" [routerLink]="'/stores'">
+              View All
+            </div>
+          </div>
+          <div class="section__list">
+            <div class="top-card" *ngFor="let item of allSortOrder">
+              <div class="top-card__inner" (click)="onRedirectToDetails(item)">
+                <div class="top-card__media">
+                  <img [src]="baseUrl + item.icon" alt="" srcset="" />
+                </div>
+                <p>{{ item.name }}</p>
+              </div>
+            </div>
+            <!-- <app-website-card
+              class="c-pointer"
+              *ngFor="let item of allSortOrder"
+              [item]="item"
+              (click)="onRedirectToDetails(item)"
+            ></app-website-card> -->
+          </div>
+        </nz-layout>
+
+        <nz-layout class="section">
+          <div class="section__header">
+            <h3>Top Categories</h3>
+            <div class="section__header--action" [routerLink]="'/categories'">
+              View All
+            </div>
+          </div>
+          <div class="section__list">
+            <app-category-card
+              class="c-pointer"
+              *ngFor="let item of allCategories"
+              [item]="item"
+              (click)="onRedirectToStore(item)"
+            ></app-category-card>
+          </div>
+        </nz-layout>
+
+        <nz-layout class="section">
+          <div class="section__header">
+            <h3>All Stores</h3>
+            <div class="section__header--action" [routerLink]="'/stores'">
+              View All
+            </div>
+          </div>
+          <div class="section__list">
+            <app-website-card
+              class="c-pointer"
+              *ngFor="let item of websiteData"
+              [item]="item"
+              (click)="onRedirectToDetails(item)"
+            ></app-website-card>
+          </div>
+        </nz-layout>
+
+        <nz-layout class="section" *ngIf="affilateItems.length > 0">
+          <div class="section__header">
+            <h3>Trending Deals</h3>
+            <div class="section__header--action" [routerLink]="'/deals'">
+              View All
+            </div>
+          </div>
+          <div class="section__list">
+            <app-affiliate-item-card
+              class="c-pointer"
+              *ngFor="let item of affilateItems"
+              [item]="item"
+              (click)="onRedirectToItemDetails(item)"
+            ></app-affiliate-item-card>
+          </div>
+        </nz-layout>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+  <app-web-footer></app-web-footer>
+</nz-layout>

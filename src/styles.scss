@@ -1,0 +1,95 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/ng-zorro-antd/src/ng-zorro-antd.min.css";
+
+// BEGINS: Fonts
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+
+// BEGINS: Utilities
+.w-100 {
+  width: 100%;
+}
+.w-75 {
+  width: 75%;
+}
+.w-50 {
+  width: 50%;
+}
+.w-25 {
+  width: 25%;
+}
+.c-pointer {
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+}
+
+// ENDS: Utilities
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+// BEGINS: Ant Design Overrides
+:root {
+  --primary-color: #302f6a;
+  //   $primary-color: #001242;
+}
+
+button.ant-btn-primary {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+a {
+  color: var(--primary-color);
+}
+
+.breadcrumb {
+  .ant-breadcrumb-separator {
+    color: #707070 !important;
+  }
+}
+
+.avatar--contain {
+  img {
+    object-fit: contain;
+  }
+}
+
+.ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  background-color: var(--primary-color);
+}
+
+.ant-steps-item-process
+  .ant-steps-item-icon
+  > .ant-steps-icon
+  .ant-steps-icon-dot,
+.ant-steps-item-finish
+  .ant-steps-item-icon
+  > .ant-steps-icon
+  .ant-steps-icon-dot {
+  background-color: var(--primary-color);
+}
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: var(--primary-color);
+}
+
+.ant-steps-item-title {
+  font-size: 12px;
+}
+
+.ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-description,
+.ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-description {
+  color: var(--primary-color);
+}
+// ENDS: Ant Design Overrides

@@ -1,0 +1,57 @@
+@import "../../../assets/styles/styles.scss";
+
+.page {
+  &__container {
+    width: calc(100vw - 64px);
+    max-width: 1600px;
+    margin: auto;
+    min-height: calc(100vh - 417px);
+    display: flex;
+    padding-top: 24px;
+  }
+}
+
+.inner-content {
+  padding: 24px;
+  background: $text-light-color;
+}
+
+nz-card {
+  margin-bottom: 12px;
+}
+.text {
+  color: #2deafb;
+}
+
+.isDesktop {
+  display: block;
+}
+.isMobile {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .isDesktop {
+    display: none;
+  }
+  .isMobile {
+    display: block;
+  }
+  .page {
+    &__container {
+      width: calc(100vw - 16px);
+      flex-direction: column;
+    }
+  }
+}
+
+.how {
+  &__video {
+    video {
+      width: 100%;
+      max-width: 480px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

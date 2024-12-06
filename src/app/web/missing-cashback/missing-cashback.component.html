@@ -1,0 +1,40 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <nz-sider nzWidth="200px" nzTheme="light" class="isDesktop">
+          <app-profile-sidebar
+            [active]="'MISSING_CASH'"
+            class="isDesktop"
+          ></app-profile-sidebar>
+        </nz-sider>
+        <app-profile-sidebar
+          [active]="'MISSING_CASH'"
+          class="isMobile"
+        ></app-profile-sidebar>
+        <nz-content class="inner-content">
+          <div class="ticket__header">
+            <h3>Previous tickets</h3>
+            <!-- <button nz-button nzType="primary" [nzLoading]="false">
+              Report Missing Cashback
+            </button> -->
+          </div>
+          <nz-card class="ticket__details" *ngFor="let data of requests">
+            <h4><strong>Ticket ID: </strong>{{ data.ticketID }}</h4>
+            <div>Comment: {{ data.customerComment || "-" }}</div>
+            <div>Shopping Store: {{ data.leadData?.website_name }}</div>
+            <div>Reported on:{{ data.createdAt | date : "medium" }}</div>
+            <p></p>
+            <p></p>
+            <nz-tag [nzColor]="'volcano'">{{ data.status }}</nz-tag>
+          </nz-card>
+          <nz-empty *ngIf="requests.length < 1"></nz-empty>
+        </nz-content>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

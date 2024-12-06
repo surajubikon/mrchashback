@@ -1,0 +1,61 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <nz-sider nzWidth="200px" nzTheme="light" class="isDesktop">
+          <app-profile-sidebar
+            [active]="'PAY_REQ'"
+            class="isDesktop"
+          ></app-profile-sidebar>
+        </nz-sider>
+        <app-profile-sidebar
+          [active]="'PAY_REQ'"
+          class="isMobile"
+        ></app-profile-sidebar>
+        <nz-content class="inner-content">
+          <nz-tabset>
+            <nz-tab
+              nzTitle="Active Requests"
+              (nzClick)="onChangeStatus('UNPAID')"
+            >
+              <nz-card *ngFor="let reqItem of requests">
+                <div>Withdrawal Amount: ₹ {{ reqItem.amount || 0 }}</div>
+                <div>
+                  <small
+                    >Requested at:
+                    {{ reqItem.createdAt | date : "medium" }}</small
+                  >
+                </div>
+              </nz-card>
+              <nz-empty *ngIf="requests.length < 1"></nz-empty>
+
+            </nz-tab>
+            <nz-tab nzTitle="Past Requests" (nzClick)="onChangeStatus('PAID')">
+              <nz-card *ngFor="let reqItem of requests">
+                <div>Withdrawal Amount: ₹ {{ reqItem.amount || 0 }}</div>
+                <div>
+                  <small
+                    >Requested at:
+                    {{ reqItem.createdAt | date : "medium" }}</small
+                  >
+                </div>
+                <div>
+                  <small
+                    >Request Closed at:
+                    {{ reqItem.updatedAt | date : "medium" }}</small
+                  >
+                </div>
+
+              </nz-card>
+              <nz-empty *ngIf="requests.length < 1"></nz-empty>
+            </nz-tab>
+          </nz-tabset>
+        </nz-content>
+      </nz-content>
+
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

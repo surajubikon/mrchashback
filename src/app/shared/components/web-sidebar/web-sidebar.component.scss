@@ -1,0 +1,105 @@
+// .logo {
+//     width: 120px;
+//     height: 32px;
+//     //   background: rgba(255, 255, 255, 0.2);
+//     margin: auto 32px auto 0;
+//     float: left;
+//     img {
+//       width: 100%;
+//     }
+//   }
+  
+//   .header-menu {
+//     line-height: 64px;
+//   }
+  
+//   .sider-menu {
+//     height: 100%;
+//     border-right: 0;
+//   }
+  
+//   .inner-layout {
+//     padding: 0 24px 24px;
+//   }
+  
+//   nz-breadcrumb {
+//     margin: 16px 0;
+//   }
+  
+//   nz-content {
+//     background: #fff;
+//     padding: 24px;
+//     min-height: calc(100vh - 142px);
+//     //   min-height: 280px;
+//   }
+  
+//   //////////
+//   .ant-layout-header {
+//     // background: var(--primary-color);
+//     //   height: 64px;
+//     //   padding: 0 50px;
+//     //   color: rgba(0, 0, 0, 0.85);
+//     //   line-height: 64px;
+//   }
+  
+//   .header-menu {
+//     background: var(--primary-color);
+//     color: rgba(255, 255, 255, 0.85);
+//     .ant-menu-item {
+//       &:hover {
+//         color: rgba(255, 255, 255, 1) !important;
+//         &::after {
+//           border-color: rgba(255, 255, 255, 1);
+//         }
+//       }
+//     }
+//     .ant-menu-item-selected {
+//       color: rgba(255, 255, 255, 1) !important;
+//       &::after {
+//         border-color: rgba(255, 255, 255, 1);
+//       }
+//     }
+//   }
+  
+//   .ant-menu {
+//     // box-sizing: border-box;
+//     // margin: 0;
+//     // padding: 0;
+//     // font-variant: tabular-nums;
+//     // font-feature-settings: 'tnum';
+//     // color: rgba(0,0,0,.85);
+//     // font-size: 14px;
+//     // line-height: 0;
+//     // list-style: none;
+//     // background: var(--primary-color);
+//     // outline: 0;
+//     // transition: background .3s,width .3s cubic-bezier(.2,0,0,1) 0s;
+//   }
+  .layout {
+    min-height: 100vh;
+  }
+
+  .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+
+  nz-header {
+    background: #fff;
+    padding: 0;
+  }
+
+  nz-content {
+    margin: 24px 16px 0;
+  }
+
+  .inner-content {
+    padding: 24px;
+    background: #fff;
+    min-height: 360px;
+  }
+
+  nz-footer {
+    text-align: center;
+  }

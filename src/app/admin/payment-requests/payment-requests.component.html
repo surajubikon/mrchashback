@@ -1,0 +1,170 @@
+<nz-layout>
+  <app-dashboard-header></app-dashboard-header>
+  <nz-layout>
+    <nz-sider nzWidth="200px" nzTheme="light">
+      <app-sidebar [activeMenu]="'PAYMENT-REQUESTS'"></app-sidebar>
+    </nz-sider>
+    <nz-layout class="inner-layout">
+      <nz-page-header [nzGhost]="false">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+          <nz-breadcrumb-item>
+            <a href="/dashboard/home">Home</a>
+          </nz-breadcrumb-item>
+          <nz-breadcrumb-item>Payment Requests</nz-breadcrumb-item>
+          <!-- <nz-breadcrumb-item>Overview</nz-breadcrumb-item> -->
+        </nz-breadcrumb>
+        <nz-page-header-title>Payment Requests</nz-page-header-title>
+        <!-- <nz-page-header-subtitle>This is a subtitle</nz-page-header-subtitle> -->
+        <!-- <nz-page-header-extra>
+          <nz-space>
+            <button *nzSpaceItem nz-button>Secondary Action</button>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              (click)="openCreateDrawer()"
+            >
+              Add New
+            </button>
+          </nz-space>
+        </nz-page-header-extra> -->
+
+        <nz-page-header-content>
+          <nz-segmented
+            [nzOptions]="options"
+            (nzValueChange)="handleSegmentChange($event)"
+          ></nz-segmented>
+
+          <div class="flex">
+            <div class="flex-item">
+              <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input
+                  type="text"
+                  [formControl]="searchFormControl"
+                  nz-input
+                  placeholder="Search..."
+                />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+              </ng-template>
+            </div>
+            <div class="flex-item">
+              <!-- <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                {{ status ? status : "Filter by Status" }}
+                <span nz-icon nzType="down"></span>
+              </button> -->
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <!-- <li
+                    nz-menu-item
+                    (click)="applyStatusFilter(status.value)"
+                    *ngFor="let status of userStatus"
+                  >
+                    {{ status.label }}
+                  </li> -->
+                </ul>
+              </nz-dropdown-menu>
+            </div>
+            <div class="flex-item" *ngIf="searchFormControl.value">
+              <button
+                nz-button
+                nzType="text"
+                (click)="onResetFilter()"
+                nzDanger
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </nz-page-header-content>
+      </nz-page-header>
+      <nz-content>
+        <ng-container *ngIf="isDataLoad">
+          <nz-spin colspan="7" style="text-align: center" nzTip="Loading...">
+          </nz-spin>
+        </ng-container>
+        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="requests">
+          <thead>
+            <tr>
+              <th>Customer Details</th>
+              <th>Payment Details</th>
+              <th>Requested At</th>
+              <th>Withdrawal Amount</th>
+              <th *ngIf="status === 'UNPAID'">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="!isDataLoad">
+              <tr *ngFor="let data of basicTable.data">
+                <td>
+                  <div>
+                    <strong>{{ data.userId.name | titlecase }}</strong>
+                  </div>
+                  <div>
+                    <small>Mobile: {{ data.userId?.mobile?.number }}</small>
+                  </div>
+                </td>
+                <td>
+                  <div>Bank: {{ data.userId.bankName | titlecase }}</div>
+                  <div>IFSC: {{ data.userId.bankIFSC }}</div>
+                  <div>A/C: {{ data.userId.bankAccNum }}</div>
+                  <div>UPI:{{ data.userId.upiID || "-" }}</div>
+                </td>
+                <td>{{ data.createdAt | date : "mediumDate" }}</td>
+                <td>₹{{ data.amount }}</td>
+                <!-- <td>
+                    <nz-tag
+                      [nzColor]="data.status === 'ACTIVE' ? 'green' : 'red'"
+                      >{{ data.status | titlecase }}</nz-tag
+                    >
+                  </td> -->
+
+                <td>
+                  <nz-space *ngIf="data.status === 'UNPAID'">
+                    <button
+                      *nzSpaceItem
+                      nz-button
+                      nzSize="default"
+                      nzType="primary"
+                      (click)="openRequestUpdate(data)"
+                    >
+                      Update
+                    </button>
+                  </nz-space>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+        <nz-pagination
+          [nzPageSize]="limit"
+          [nzPageIndex]="page"
+          [nzTotal]="totalCounts"
+          (nzPageIndexChange)="onChangePage($event)"
+        ></nz-pagination>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Update Payment Request"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="onUpdateRequest()"
+>
+  <ng-container *nzModalContent>
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Please Select Payment Mode:</p>
+        <select
+          [formControl]="paymentModeFormControl"
+          class="payment-mode-dropdown"
+        >
+          <option value="CASH">Cash</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

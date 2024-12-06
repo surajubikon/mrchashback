@@ -1,0 +1,65 @@
+@import "../../../../assets/styles/styles.scss";
+
+.page {
+  &__container {
+    width: calc(100vw - 64px);
+    max-width: 1600px;
+    margin: auto;
+  }
+}
+
+.hero {
+  &__container {
+    height: 200px;
+    background: $primary-color;
+    color: $text-light-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    h1 {
+      color: $text-light-color;
+    }
+    p {
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
+
+.section {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  &__list {
+    display: flex;
+    justify-content: center;
+    background: #f0f2f5;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 12px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .page {
+    &__container {
+      width: calc(100vw - 16px);
+    }
+  }
+  nz-segmented {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  nz-segmented {
+    font-size: 12px;
+    padding-inline: 4px;
+  }
+  app-affiliate-item-card {
+    width: 100%;
+  }
+}

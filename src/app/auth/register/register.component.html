@@ -1,0 +1,93 @@
+<nz-layout>
+  <app-web-header></app-web-header>
+
+  <nz-layout>
+    <nz-layout class="inner-layout">
+      <nz-content class="page__container">
+        <div class="flex-item registration__form">
+          <form nz-form [formGroup]="userFormGroup" (ngSubmit)="createUser()">
+            <div class="registration__form--title">
+              Let's setup your account!
+            </div>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please input your full name!">
+                <nz-input-group nzPrefixIcon="user">
+                  <input
+                    type="text"
+                    nz-input
+                    formControlName="name"
+                    placeholder="Full Name"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please input your email!">
+                <nz-input-group nzPrefixIcon="mail">
+                  <input
+                    type="email"
+                    nz-input
+                    formControlName="email"
+                    placeholder="Email"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please input your mobile number!">
+                <nz-input-group nzPrefixIcon="phone">
+                  <input
+                    type="tel"
+                    [readOnly]="!inviteCode"
+                    nz-input
+                    formControlName="mobile"
+                    placeholder="Mobile Number"
+                    maxlength="10"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please input your password!">
+                <nz-input-group nzPrefixIcon="lock">
+                  <input
+                    type="password"
+                    nz-input
+                    formControlName="password"
+                    placeholder="Password"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <nz-input-group nzPrefixIcon="key">
+                  <input
+                    [readOnly]="inviteCode"
+                    type="text"
+                    nz-input
+                    formControlName="referralCode"
+                    placeholder="Referral Code (Optional)"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <button
+              nz-button
+              nzType="primary"
+              class="w-100 login-form-margin"
+              [nzLoading]="isLoading"
+            >
+              CREATE ACCOUNT
+            </button>
+            <div class="registration__form--footer">
+              Already have an account?
+              <a routerLink="/login">Login Now</a>
+            </div>
+          </form>
+        </div>
+      </nz-content>
+      <app-web-footer></app-web-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>
